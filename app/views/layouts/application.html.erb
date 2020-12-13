@@ -2,29 +2,52 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"></link>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>CardsGameSimulator</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= action_cable_meta_tag %>
+  <%= javascript_pack_tag 'application' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= csrf_meta_tags %>
 </head>
-<h1><%= link_to 'CardGameSim', root_path, :class => 'btn btn-primary' %></h1>
+<header>
+  <h1><%= link_to 'Home', root_path, :class => 'btn btn-primary' %></h1>
+</header>
 <body>
-<div id="flash_message">
-  <% if flash[:notice] %>
-    <div class="alert alert-danger">
-      <div class="flashMessage" id="notice">
-        <%= flash[:notice] %>
+<div id="MainWindow">
+  <div id="flash_message">
+    <% if flash[:notice] %>
+      <div class="alert alert-danger">
+        <div class="flashMessage" id="notice">
+          <%= flash[:notice].html_safe %>
+        </div>
       </div>
-    </div>
-  <% elsif flash[:warning] %>
-    <div class="alert alert-danger">
-      <div class="flashMessage" id="warning">
-        <%= flash[:warning] %>
+    <% elsif flash[:warning] %>
+      <div class="alert alert-danger">
+        <div class="flashMessage" id="warning">
+          <%= flash[:warning].html_safe %>
+        </div>
       </div>
-    </div>
-  <% end %>
-</div>
-<%= yield %>
+    <% elsif flash[:error] %>
+      <div class="alert alert-danger">
+        <div class="flashMessage" id="error">
+          <%= flash[:error].html_safe %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
+  <%= yield %>
+</div>
+
+<script>
+    let x = $(".alert").html();
+    let y = $(x).text();
+    $(".alert" ).slideDown().delay(4000 + y.length*20).slideUp();
+    // const fade = {opacity: 0, transition: 'opacity 0.5s'};
+    // $(".alert" ).css(fade).delay(1000).slideUp();
+</script>
 </body>
 </html>

@@ -21,13 +21,34 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6.x'
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
+          node-version: 14.x 
+         
       - name: install dependencies
         run: |
           gem install bundler -v 2.1.4
           bundle install
+          bundle exec yarn install
+          bundle exec rails webpacker:compile
+      
+      - name: verify webpacker outputs
+        run: | 
+          ls public
+          ls public/packs
       - name: prepare database
         run: bundle exec rake db:test:prepare
       - name: run rspec tests
         run: bundle exec rspec
+      - name: run minitest tests
+        run: bundle exec rake test
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage_report
+          path: ./coverage
+          retention-days: 2
       - name: run cucumber tests
         run: bundle exec cucumber

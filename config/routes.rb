@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  get '/rooms/show_piles', to: 'rooms#show_piles'
 
   # mount ActionCable.server => '/cable'
   get '/rooms/new_join', to: 'rooms#new_join'
   post '/rooms/create_join', to: 'rooms#create_join'
+
+  post 'rooms/show_hand', to: 'rooms#show_hand'
   resources :rooms
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -21,12 +25,18 @@ Rails.application.routes.draw do
 
   root to: redirect('/dashboard')
 
-  #root "piles#pile_homepage"
-  get "piles/pile_homepage"
-  resources :piles
-  match '/create_pile', to: 'piles#new', via: :get
-  post 'piles/show'
-  post 'piles/transfer_card'
+  resources :piles do
+    collection do
+      get 'get_from_draw'
+      get 'discard'
+      get 'show_transfer'
+      post 'draw_cards_from_deck'
+      post 'transfer_card'
+      post 'transfer_to_discard'
+    end
+  end
+  match '/create_pile', to: 'piles#new', via: :post
+  match '/create_deck', to: 'piles#create_deck', via: :post
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

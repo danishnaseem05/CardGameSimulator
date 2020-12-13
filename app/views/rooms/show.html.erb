@@ -1,2 +1,11 @@
-<h2>Welcome To <%= @room.name %></h2>
-<h3>To have someone join this room, have them enter the following room code: <%= @room.room_code %></h3>
+<div id='game-room'>
+  <%= render partial: 'show_game_room' %>
+</div>
+<script>
+    subscribe_to_room(<%= @room.id %>)
+    jQuery(TransferCardsPopup.setup);
+    jQuery(DrawsPopup.setup);
+    jQuery(DiscardCardsPopup.setup);
+    jQuery(CreatePilesPopup.setup);
+</script>
+

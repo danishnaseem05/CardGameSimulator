@@ -40,13 +40,23 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Gems for react portion of application
+gem 'webpacker'
+gem 'react_on_rails'
+gem 'mini_racer'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'action-cable-testing'
   gem 'byebug'
   gem 'capybara'
   gem 'guard-rspec'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'launchy'
+  gem 'jasmine'
+  gem 'jasmine-core'
+  gem 'jasmine-rails'
+  gem 'jasmine-jquery-rails'
   gem 'rspec', '~>3.5'
   gem 'rspec-rails'
 
@@ -65,7 +75,7 @@ group :development do
   gem 'spring'
 end
 group :test do
-  gem 'cucumber', '< 4.0.0'
+  gem 'cucumber', '<4.0.0'
   gem 'cucumber-rails', :require=>false
   gem 'database_cleaner'
   gem 'rspec-expectations'
@@ -73,7 +83,13 @@ group :test do
 
 end
 
+group :development, :production do
+  gem 'puma'
+
+end
+
 group :production do
   gem 'pg', '~> 0.21' # for Heroku deployment
   gem 'rails_12factor'
+  gem 'redis', '~> 3.0'
 end
